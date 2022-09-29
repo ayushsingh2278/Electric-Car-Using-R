@@ -1,0 +1,235 @@
+
+```{r}
+print("WHY WE USED R PROGRAMMING?")
+print(" ")
+print("-> Excellent for Statistical Computing and Analysis. R is a statistical")
+print(" ")    
+print("language created by statisticians. ...")
+print(" ")
+
+
+print("-> Open-source. ...")
+print(" ")
+
+print("-> Age Variety of Libraries. ...")
+print(" ")
+print("-> Cross-platform Support. ...")
+print(" ")
+print("-> Supports various Data Types. ...")
+print(" ")
+print("-> Can do Data Cleansing, Data Wrangling, and Web Scraping. ...")
+print(" ")
+print("-> Powerful Graphics. ...")
+print(" ")
+print("-> Highly Active Community.")
+```
+
+```{r}
+#loading electric_cars data
+electric_cars<-read.csv("/Users/ayushsingh/Downloads/ElectricCarData_Clean.csv.xls")
+print("electric_cars data loaded")
+```
+
+```{r}
+#viewing data
+#print("checking first 6 records of electric_cars data")
+head(electric_cars)
+
+```
+
+```{r}
+#dim
+dim(electric_cars)
+
+```
+```{r}
+print("details of last few rows ")
+tail(electric_cars)
+```
+
+```{r}
+print("details of structure of rows ")
+str(electric_cars)
+```
+
+
+```{r}
+
+summary(electric_cars)
+```
+```{r}
+print("details of last few rows")
+tail(electric_cars)
+```
+
+```{r}
+print("Which car has the fastest 0-100 acceleration")
+library(sqldf)
+head(sqldf("select Model,min(AccelSec)from electric_cars group by AccelSec"),1)
+```
+
+```{r}
+
+library(ggplot2)
+library(plotly)
+fig <- plot_ly(x = electric_cars$AccelSec, y = electric_cars$Model, type = 'scatter'
+               , name = 'ACCELERATION')%>% 
+    layout(title = 'ACCELERATION OF MODEL',
+           plot_bgcolor='#e5ecf6',  
+           xaxis = list(  
+               title = 'ACCELERATION',
+               zerolinecolor = '#ffff',  
+               zerolinewidth = 2,  
+               gridcolor = 'ffff'),  
+           yaxis = list(  
+               title = 'MODEL',
+               zerolinecolor = '#ffff',  
+               zerolinewidth = 2,  
+               gridcolor = 'ffff'),
+           showlegend = TRUE, width = 1100)
+fig
+
+```
+
+```{r}
+print("Which has the highest efficiency?")
+
+sqldf("select Brand,Model,max(Efficiency_WhKm)from electric_cars ")
+
+```
+
+```{r}
+print(" TO CHECK IN GRAPH Which has the highest efficiency?")
+
+fig2<- plot_ly(x = electric_cars$Efficiency_WhKm, y = electric_cars$Model, type = 'scatter'
+           , name = 'EFFICIENCY')%>% 
+     layout(title = 'EFFICIENCY',
+            plot_bgcolor='#e5ecf6',  
+            xaxis = list(  
+                title = 'EFFICIENCY',
+                zerolinecolor = '#ffff',  
+                zerolinewidth = 2,  
+                gridcolor = 'ffff'),  
+            yaxis = list(  
+                title = 'MODEL',
+                zerolinecolor = '#ffff',  
+                zerolinewidth = 2,  
+                gridcolor = 'ffff'),
+            showlegend = TRUE, width = 1100)
+fig2
+
+```
+
+```{r}
+#Does a difference in power train effect the range, top speed, efficiency?
+```
+
+```{r}
+fig <- plot_ly(x = electric_cars$PowerTrain, y = electric_cars$TopSpeed_KmH, type = 'scatter',
+               , name = 'powertrain/TopSpeed_KmH')%>% 
+  layout(title = 'POWERTRAIN VS TopSpeed_KmH',
+         plot_bgcolor='#e5ecf6',  
+         xaxis = list(  
+           title = 'POWERTRAIN',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),  
+         yaxis = list(  
+           title = 'TOPSPEED',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),
+         showlegend = TRUE, width = 1100)
+fig
+
+```
+
+
+
+
+```{r}
+fig <- plot_ly(x = electric_cars$PowerTrain, y = electric_cars$Range_Km, type = 'scatter',
+               , name = 'powertrain/Range_Km')%>% 
+  layout(title = 'POWERTRAIN VS Range_Km',
+         plot_bgcolor='#e5ecf6',  
+         xaxis = list(  
+           title = 'POWERTRAIN',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),  
+         yaxis = list(  
+           title = 'Range_Km',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),
+         showlegend = TRUE, width = 1100)
+fig
+
+
+```
+
+```{r}
+fig <- plot_ly(x = electric_cars$PowerTrain, y =       
+      electric_cars$Efficiency_WhKm, type = 'scatter',
+            , name = 'powertrain/eff')%>% 
+  layout(title = 'POWERTRAIN VS EFFICIENCY',
+         plot_bgcolor='#e5ecf6',  
+         xaxis = list(  
+           title = 'POWERTRAIN',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),  
+         yaxis = list(  
+           title = 'EFF.',
+           zerolinecolor = '#ffff',  
+           zerolinewidth = 2,  
+           gridcolor = 'ffff'),
+         showlegend = TRUE, width = 1100)
+fig
+
+
+```
+
+
+```{r}
+print("Which manufacturer has the most number of vehicles?")
+highestcount<- table (electric_cars['Brand'])
+which.max(highestcount)
+
+
+```
+
+
+```{r}
+#forcheck
+print("forcheck")
+highestcount
+```
+
+
+```{r}
+#How does price relate to rapid charging
+fig <- plot_ly(x = electric_cars$FastCharge_KmH
+               , y = electric_cars$PriceEuro
+               
+                  ,  mode = 'lines',
+                               , name = 'FastCharge/PriceEuro')%>% 
+       layout(title = ' FastCharge VS PriceEuro',
+                           plot_bgcolor='#e5ecf6',  
+                           xaxis = list(  
+                                title = 'FastCharge',
+                                 zerolinecolor = '#ffff',  
+                                 zerolinewidth = 2,  
+                                 gridcolor = 'ffff'),  
+                           yaxis = list(  
+                                 title = 'PriceEuro',
+                                 zerolinecolor = '#ffff',  
+                                 zerolinewidth = 2,  
+                                 gridcolor = 'ffff'),
+                           showlegend = TRUE, width = 1100)
+fig
+
+```
+
+
+
